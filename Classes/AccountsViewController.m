@@ -23,6 +23,7 @@
 #import "KKPasscodeLock.h"
 #import "ZipFile.h"
 #import "ZipWriteStream.h"
+#import "AllSalesVC.h"
 
 #define kAddNewAccountEditorIdentifier		@"AddNewAccountEditorIdentifier"
 #define kEditAccountEditorIdentifier		@"EditAccountEditorIdentifier"
@@ -45,6 +46,20 @@
 
 @synthesize managedObjectContext, accounts, selectedAccount, refreshButtonItem, delegate, exportedReportsZipPath, documentInteractionController;
 
+- (void)wwShowAllReportsVC:(id)sender
+{
+    if (self.accounts.count>0) {
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            AllSalesVC *a = [[[AllSalesVC alloc] initWithAccount:self.accounts[0] all:self.accounts] autorelease];
+            [self.navigationController pushViewController:a animated:YES];
+        } else {
+            AllSalesVC *a = [[[AllSalesVC alloc] initWithAccount:self.accounts[0] all:self.accounts] autorelease];
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:a];
+            [self.navigationController presentViewController:nav animated:YES completion:NULL];
+        }
+    }
+}
+
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
@@ -55,8 +70,11 @@
 	UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
 	[infoButton addTarget:self action:@selector(showInfo:) forControlEvents:UIControlEventTouchUpInside];
 	UIBarButtonItem *infoButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:infoButton] autorelease];
-	
-	self.toolbarItems = [NSArray arrayWithObjects:infoButtonItem, flexSpace, settingsButtonItem, nil];
+    
+    //ww
+    UIBarButtonItem *wwBBI = [[UIBarButtonItem alloc] initWithTitle:@"allDailyWeekly" style:UIBarButtonItemStyleBordered target:self action:@selector(wwShowAllReportsVC:)];
+
+	self.toolbarItems = [NSArray arrayWithObjects:infoButtonItem, flexSpace, wwBBI, flexSpace, settingsButtonItem, nil];
 	self.navigationItem.rightBarButtonItem = refreshButtonItem;
 	
 	self.title = NSLocalizedString(@"AppSales", nil);
