@@ -474,7 +474,8 @@
 
 - (void)setSegmentValues:(NSArray *)values label:(NSString *)labelText
 {
-	NSAssert([values count] == [segmentViews count], @"The number of values must always be equal to the number of colors");
+    //ww some report may be missing
+//	NSAssert([values count] == [segmentViews count], @"The number of values must always be equal to the number of colors");
 	
 	CGFloat padding = 3.0;
 	CGFloat width = self.bounds.size.width - 2 * padding;
