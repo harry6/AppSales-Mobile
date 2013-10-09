@@ -50,10 +50,13 @@
 @property (nonatomic, retain) NSArray *accounts;
 @property (nonatomic, retain) NSMutableArray *wwSortedDailyReportsForAllAccounts;
 @property (nonatomic, retain) NSMutableArray *wwSortedWeeklyReportsForAllAccounts;
+@property (nonatomic, retain) NSMutableArray *wwSortedCalendarMonthReportsForAllAccounts;
+@property (nonatomic, retain) NSMutableArray *wwSortedFiscalMonthReportsForAllAccounts;
 @property (nonatomic, retain) NSMutableArray *wwAllProducts;
 @property (nonatomic) int wwMaxReportCount;
 @property (nonatomic) int wwMaxWeeklyReportCount;
+@property (nonatomic) int wwMaxCalendarMonthReportCount;
+@property (nonatomic) int wwMaxFiscalMonthReportCount;
 - (id)initWithAccount:(ASAccount *)anAccount all:(NSArray *)accs;
-- (int)ww_index:(int)index for:(int)accountIndex;
 
 @end

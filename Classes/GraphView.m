@@ -476,6 +476,7 @@
 {
     //ww some report may be missing
 //	NSAssert([values count] == [segmentViews count], @"The number of values must always be equal to the number of colors");
+    NSLog(@"values=%d : segmentViews=%d", values.count, segmentViews.count);
 	
 	CGFloat padding = 3.0;
 	CGFloat width = self.bounds.size.width - 2 * padding;
@@ -611,7 +612,7 @@
 				break;
 			}
 		}
-		NSMutableArray *steps = [NSMutableSet set];
+		NSMutableArray *steps = [NSMutableArray array];
 		int step = pickedUnit;
 		while (step <= newMax && pickedUnit != 0) {
 			[steps addObject:[NSNumber numberWithInt:step]];

@@ -45,14 +45,28 @@
 - (int)ww_index:(int)index for:(int)accountIndex
 {
     int count = [self.wwSortedDailyReportsForAllAccounts[accountIndex] count];
-    int i = count- (self.wwMaxReportCount-index);
+    int i = count-(self.wwMaxReportCount-index);
     return i;
 }
 
 - (int)ww_indexForWeekly:(int)index for:(int)accountIndex
 {
     int count = [self.wwSortedWeeklyReportsForAllAccounts[accountIndex] count];
-    int i = count- (self.wwMaxWeeklyReportCount-index);
+    int i = count-(self.wwMaxWeeklyReportCount-index);
+    return i;
+}
+
+- (int)ww_indexForCMonthly:(int)index for:(int)accountIndex
+{
+    int count = [self.wwSortedCalendarMonthReportsForAllAccounts[accountIndex] count];
+    int i = count-(self.wwMaxCalendarMonthReportCount-index);
+    return i;
+}
+
+- (int)ww_indexForFMonthly:(int)index for:(int)accountIndex
+{
+    int count = [self.wwSortedFiscalMonthReportsForAllAccounts[accountIndex] count];
+    int i = count-(self.wwMaxFiscalMonthReportCount-index);
     return i;
 }
 
@@ -70,8 +84,11 @@
 		sortedCalendarMonthReports = [NSMutableArray new];
 		sortedFiscalMonthReports = [NSMutableArray new];
         
+        //ww
         self.wwSortedDailyReportsForAllAccounts = [[[NSMutableArray alloc] initWithCapacity:self.accounts.count] autorelease];
         self.wwSortedWeeklyReportsForAllAccounts = [[[NSMutableArray alloc] initWithCapacity:self.accounts.count] autorelease];
+        self.wwSortedCalendarMonthReportsForAllAccounts = [[[NSMutableArray alloc] initWithCapacity:self.accounts.count] autorelease];
+        self.wwSortedFiscalMonthReportsForAllAccounts = [[[NSMutableArray alloc] initWithCapacity:self.accounts.count] autorelease];
 		
 		calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 		[calendar setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
@@ -260,30 +277,96 @@
     NSArray *wwSortDescriptors = [NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"startDate" ascending:YES] autorelease]];
     [self.wwSortedDailyReportsForAllAccounts removeAllObjects];
     [self.wwSortedWeeklyReportsForAllAccounts removeAllObjects];
+    [self.wwSortedFiscalMonthReportsForAllAccounts removeAllObjects];
+    [self.wwSortedCalendarMonthReportsForAllAccounts removeAllObjects];
+    self.wwMaxReportCount = 0;
+    self.wwMaxWeeklyReportCount = 0;
+    self.wwMaxCalendarMonthReportCount = 0;
+    self.wwMaxFiscalMonthReportCount = 0;
+    self.wwAllProducts = [NSMutableArray new];
     for (ASAccount *a in self.accounts) {
+        
+        //daily
         NSMutableArray *sdReports = [NSMutableArray new];
-        NSMutableArray *swReports = [NSMutableArray new];
         NSSet *allDailyReports = a.dailyReports;
-        NSSet *allWeeklyReports = a.weeklyReports;
         [sdReports addObjectsFromArray:[allDailyReports allObjects]];
-        [swReports addObjectsFromArray:[allWeeklyReports allObjects]];
         [sdReports sortUsingDescriptors:wwSortDescriptors];
-        [swReports sortUsingDescriptors:wwSortDescriptors];
         [self.wwSortedDailyReportsForAllAccounts addObject:sdReports];
-        [self.wwSortedWeeklyReportsForAllAccounts addObject:swReports];
         
         if (sdReports.count>self.wwMaxReportCount) {
             self.wwMaxReportCount=sdReports.count;
         }
+        
+        //weekly
+        NSMutableArray *swReports = [NSMutableArray new];
+        NSSet *allWeeklyReports = a.weeklyReports;
+        [swReports addObjectsFromArray:[allWeeklyReports allObjects]];
+        [swReports sortUsingDescriptors:wwSortDescriptors];
+        [self.wwSortedWeeklyReportsForAllAccounts addObject:swReports];
         if (swReports.count>self.wwMaxWeeklyReportCount) {
             self.wwMaxWeeklyReportCount=swReports.count;
         }
-    }
-    self.wwAllProducts = [NSMutableArray new];
-    for (ASAccount *a in self.accounts) {
+
+        //products
         NSArray *ps = [[a.products allObjects] sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"productID" ascending:NO] autorelease]]];
         [self.wwAllProducts addObject:ps];
+        
+        //Group daily reports by calendar month:
+        NSDateFormatter *monthFormatter = [[[NSDateFormatter alloc] init] autorelease];
+        [monthFormatter setDateFormat:@"MMMM yyyy"];
+        [monthFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+        NSDateComponents *prevDateComponents = nil;
+        NSMutableArray *reportsInCurrentMonth = nil;
+        NSMutableArray *scmReports = [NSMutableArray new];
+        for (Report *dailyReport in sdReports) {
+            NSDateComponents *dateComponents = [calendar components:NSYearCalendarUnit | NSMonthCalendarUnit fromDate:dailyReport.startDate];
+            if (!prevDateComponents || (dateComponents.month != prevDateComponents.month || dateComponents.year != prevDateComponents.year)) {
+                // New month discovered. Make a new ReportCollection to gather all the daily reports in this month.
+                reportsInCurrentMonth = [NSMutableArray array];
+                [reportsInCurrentMonth addObject:dailyReport];
+                ReportCollection *monthCollection = [[[ReportCollection alloc] initWithReports:reportsInCurrentMonth] autorelease];
+                monthCollection.title = [monthFormatter stringFromDate:dailyReport.startDate];
+                [scmReports addObject:monthCollection];
+            } else {
+                // This report is from the same month as the previous report. Append the daily report to the existing collection.
+                [reportsInCurrentMonth addObject:dailyReport];
+            }
+            prevDateComponents = dateComponents;
+        }
+        [self.wwSortedCalendarMonthReportsForAllAccounts addObject:scmReports];
+        if (scmReports.count>self.wwMaxCalendarMonthReportCount) {
+            self.wwMaxCalendarMonthReportCount=scmReports.count;
+        }
+        
+        // Group daily reports by fiscal month:
+        NSString *prevFiscalMonthName = nil;
+        NSMutableArray *reportsInCurrentFiscalMonth = nil;
+        NSMutableArray *sfmReports = [NSMutableArray new];
+        for (Report *dailyReport in sdReports) {
+            NSString *fiscalMonth = [[AppleFiscalCalendar sharedFiscalCalendar] fiscalMonthForDate:dailyReport.startDate];
+            if (![fiscalMonth isEqualToString:prevFiscalMonthName]) {
+                if (reportsInCurrentFiscalMonth) {
+                    ReportCollection *fiscalMonthCollection = [[[ReportCollection alloc] initWithReports:reportsInCurrentFiscalMonth] autorelease];
+                    [sfmReports addObject:fiscalMonthCollection];
+                    fiscalMonthCollection.title = fiscalMonth;
+                }
+                reportsInCurrentFiscalMonth = [NSMutableArray array];
+            }
+            [reportsInCurrentFiscalMonth addObject:dailyReport];
+            prevFiscalMonthName = fiscalMonth;
+        }
+        if ([reportsInCurrentFiscalMonth count] > 0) {
+            ReportCollection *fiscalMonthCollection = [[[ReportCollection alloc] initWithReports:reportsInCurrentFiscalMonth] autorelease];
+            [sfmReports addObject:fiscalMonthCollection];
+            fiscalMonthCollection.title = prevFiscalMonthName;
+        }
+        [self.wwSortedFiscalMonthReportsForAllAccounts addObject:sfmReports];
+        if (sfmReports.count>self.wwMaxFiscalMonthReportCount) {
+            self.wwMaxFiscalMonthReportCount=sfmReports.count;
+        }
     }
+    
+
     
     
 	[sortedDailyReports removeAllObjects];
@@ -510,42 +593,50 @@
 
 - (NSArray *)colorsForGraphView:(GraphView *)graphView
 {
-    if (selectedTab == 0) {
-        
-        NSMutableArray *colors = [NSMutableArray array];
-        for (NSArray *ps in self.wwAllProducts) {
-            for (Product *product in ps) {
-                if ([product.hidden boolValue]) {
-                    [colors addObject:[UIColor lightGrayColor]];
-                } else {
-                    [colors addObject:product.color];
-                }
-            }
+    NSMutableArray *colors = [NSMutableArray array];
+    for (int i=0; i<self.accounts.count; i++) {
+        for (Product *product in self.wwAllProducts[i]) {
+            [colors addObject:product.color];
         }
-
-        return colors;
     }
+    return colors;
     
-	NSMutableArray *colors = [NSMutableArray array];
-	for (Product *product in self.products) {
-		if ([product.hidden boolValue]) {
-			[colors addObject:[UIColor lightGrayColor]];
-		} else {
-			[colors addObject:product.color];
-		}
-	}
-	return colors;
+//    if (selectedTab == 0) {
+//        
+//        NSMutableArray *colors = [NSMutableArray array];
+//        for (NSArray *ps in self.wwAllProducts) {
+//            for (Product *product in ps) {
+//                if ([product.hidden boolValue]) {
+//                    [colors addObject:[UIColor lightGrayColor]];
+//                } else {
+//                    [colors addObject:product.color];
+//                }
+//            }
+//        }
+//
+//        return colors;
+//    }
+//    
+//	NSMutableArray *colors = [NSMutableArray array];
+//	for (Product *product in self.products) {
+//		if ([product.hidden boolValue]) {
+//			[colors addObject:[UIColor lightGrayColor]];
+//		} else {
+//			[colors addObject:product.color];
+//		}
+//	}
+//	return colors;
 }
 
 - (NSUInteger)numberOfBarsInGraphView:(GraphView *)graphView
 {
 	if (selectedTab == 0) {
-		return [((showWeeks) ? self.sortedWeeklyReports : self.sortedDailyReports) count];
+		return ((showWeeks) ? self.wwMaxWeeklyReportCount : self.wwMaxReportCount);
 	} else if (selectedTab == 1) {
 		if (showFiscalMonths) {
-			return [self.sortedFiscalMonthReports count];
+			return self.wwMaxFiscalMonthReportCount;
 		} else {
-			return [self.sortedCalendarMonthReports count];
+			return self.wwMaxCalendarMonthReportCount;
 		}
 	}
 	return 0;
@@ -580,10 +671,33 @@
         }
         
 	} else if (selectedTab == 1) {
-		if (showFiscalMonths) {
-			return [self stackedValuesForReport:[self.sortedFiscalMonthReports objectAtIndex:index]];
+//		if (showFiscalMonths) {
+//			return [self stackedValuesForReport:[self.sortedFiscalMonthReports objectAtIndex:index]];
+//		} else {
+//			return [self stackedValuesForReport:[self.sortedCalendarMonthReports objectAtIndex:index]];
+//		}
+        
+        //ww
+        if (showFiscalMonths) {
+            NSMutableArray *ma = [NSMutableArray new];
+            for (int i=0; i<self.wwSortedFiscalMonthReportsForAllAccounts.count; i++) {
+                int indexForAccount = [self ww_indexForFMonthly:index for:i];
+                NSArray *sfmReports = self.wwSortedFiscalMonthReportsForAllAccounts[i];
+                if (0<=indexForAccount && indexForAccount<sfmReports.count) {
+                    [ma addObjectsFromArray:[self ww_stackedValuesForReport:sfmReports[indexForAccount] for:i]];
+                }
+            }
+            return ma;
 		} else {
-			return [self stackedValuesForReport:[self.sortedCalendarMonthReports objectAtIndex:index]];
+			NSMutableArray *ma = [NSMutableArray new];
+            for (int i=0; i<self.wwSortedCalendarMonthReportsForAllAccounts.count; i++) {
+                int indexForAccount = [self ww_indexForCMonthly:index for:i];
+                NSArray *scmReports = self.wwSortedCalendarMonthReportsForAllAccounts[i];
+                if (0<=indexForAccount && indexForAccount<scmReports.count) {
+                    [ma addObjectsFromArray:[self ww_stackedValuesForReport:scmReports[indexForAccount] for:i]];
+                }
+            }
+            return ma;
 		}
 	}
 	return [NSArray array];
@@ -636,69 +750,66 @@
     float value = 0;
     
     
-    if (selectedTab == 0) {
-        for (int i=0; i<self.accounts.count; i++) {
-            int indexForAccount = (showWeeks?[self ww_indexForWeekly:index for:i]:[self ww_index:index for:i]);
-            NSArray *reports = (showWeeks?self.wwSortedWeeklyReportsForAllAccounts[i]:self.wwSortedDailyReportsForAllAccounts[i]);
-            if (0<=indexForAccount && indexForAccount<reports.count) {
-                id<ReportSummary> report = reports[indexForAccount];
-                NSArray *ps = self.wwAllProducts[i];
-                
-                for (Product * selectedProduct in ps) {
-                    if (viewMode == DashboardViewModeRevenue) {
-                        value += [report totalRevenueInBaseCurrencyForProductWithID:selectedProduct.productID];
-                    } else {
-                        if (viewMode == DashboardViewModeSales) {
-                            value += [report totalNumberOfPaidDownloadsForProductWithID:selectedProduct.productID];
-                        } else if (viewMode == DashboardViewModeUpdates) {
-                            value += [report totalNumberOfUpdatesForProductWithID:selectedProduct.productID];
-                        } else if (viewMode == DashboardViewModeEducationalSales) {
-                            value += [report totalNumberOfEducationalSalesForProductWithID:selectedProduct.productID];
-                        } else if (viewMode == DashboardViewModeGiftPurchases) {
-                            value += [report totalNumberOfGiftPurchasesForProductWithID:selectedProduct.productID];
-                        } else if (viewMode == DashboardViewModePromoCodes) {
-                            value += [report totalNumberOfPromoCodeTransactionsForProductWithID:selectedProduct.productID];
-                        }
+    //ww
+    for (int i=0; i<self.accounts.count; i++) {
+        int indexForAccount = ((selectedTab == 0)?(showWeeks?[self ww_indexForWeekly:index for:i]:[self ww_index:index for:i]):(showFiscalMonths?[self ww_indexForFMonthly:index for:i]:[self ww_indexForCMonthly:index for:i]));
+        NSArray *reports = ((selectedTab == 0)?(showWeeks?self.wwSortedWeeklyReportsForAllAccounts[i]:self.wwSortedDailyReportsForAllAccounts[i]):(showFiscalMonths?self.wwSortedFiscalMonthReportsForAllAccounts[i]:self.wwSortedCalendarMonthReportsForAllAccounts[i]));
+        if (0<=indexForAccount && indexForAccount<reports.count) {
+            id<ReportSummary> report = reports[indexForAccount];
+            NSArray *ps = self.wwAllProducts[i];
+            
+            for (Product * selectedProduct in ps) {
+                if (viewMode == DashboardViewModeRevenue) {
+                    value += [report totalRevenueInBaseCurrencyForProductWithID:selectedProduct.productID];
+                } else {
+                    if (viewMode == DashboardViewModeSales) {
+                        value += [report totalNumberOfPaidDownloadsForProductWithID:selectedProduct.productID];
+                    } else if (viewMode == DashboardViewModeUpdates) {
+                        value += [report totalNumberOfUpdatesForProductWithID:selectedProduct.productID];
+                    } else if (viewMode == DashboardViewModeEducationalSales) {
+                        value += [report totalNumberOfEducationalSalesForProductWithID:selectedProduct.productID];
+                    } else if (viewMode == DashboardViewModeGiftPurchases) {
+                        value += [report totalNumberOfGiftPurchasesForProductWithID:selectedProduct.productID];
+                    } else if (viewMode == DashboardViewModePromoCodes) {
+                        value += [report totalNumberOfPromoCodeTransactionsForProductWithID:selectedProduct.productID];
                     }
                 }
             }
         }
-
-        
-        
-    } else {
-    
-        id<ReportSummary> report = nil;
-        if (selectedTab == 0) {
-            report = [((showWeeks) ? self.sortedWeeklyReports : self.sortedDailyReports) objectAtIndex:index];
-        } else {
-            if (showFiscalMonths) {
-                report = [self.sortedFiscalMonthReports objectAtIndex:index];
-            } else {
-                report = [self.sortedCalendarMonthReports objectAtIndex:index];
-            }
-        }
-        
-        NSArray* tProducts = ((self.selectedProducts) ? self.selectedProducts : self.visibleProducts);
-        
-        for (Product * selectedProduct in tProducts) {
-            if (viewMode == DashboardViewModeRevenue) {
-                value += [report totalRevenueInBaseCurrencyForProductWithID:selectedProduct.productID];
-            } else {
-                if (viewMode == DashboardViewModeSales) {
-                    value += [report totalNumberOfPaidDownloadsForProductWithID:selectedProduct.productID];
-                } else if (viewMode == DashboardViewModeUpdates) {
-                    value += [report totalNumberOfUpdatesForProductWithID:selectedProduct.productID];
-                } else if (viewMode == DashboardViewModeEducationalSales) {
-                    value += [report totalNumberOfEducationalSalesForProductWithID:selectedProduct.productID];
-                } else if (viewMode == DashboardViewModeGiftPurchases) {
-                    value += [report totalNumberOfGiftPurchasesForProductWithID:selectedProduct.productID];
-                } else if (viewMode == DashboardViewModePromoCodes) {
-                    value += [report totalNumberOfPromoCodeTransactionsForProductWithID:selectedProduct.productID];
-                }
-            }
-        }
     }
+    
+    
+//    id<ReportSummary> report = nil;
+//    if (selectedTab == 0) {
+//        report = [((showWeeks) ? self.sortedWeeklyReports : self.sortedDailyReports) objectAtIndex:index];
+//    } else {
+//        if (showFiscalMonths) {
+//            report = [self.sortedFiscalMonthReports objectAtIndex:index];
+//        } else {
+//            report = [self.sortedCalendarMonthReports objectAtIndex:index];
+//        }
+//    }
+//    
+//    NSArray* tProducts = ((self.selectedProducts) ? self.selectedProducts : self.visibleProducts);
+//    
+//    for (Product * selectedProduct in tProducts) {
+//        if (viewMode == DashboardViewModeRevenue) {
+//            value += [report totalRevenueInBaseCurrencyForProductWithID:selectedProduct.productID];
+//        } else {
+//            if (viewMode == DashboardViewModeSales) {
+//                value += [report totalNumberOfPaidDownloadsForProductWithID:selectedProduct.productID];
+//            } else if (viewMode == DashboardViewModeUpdates) {
+//                value += [report totalNumberOfUpdatesForProductWithID:selectedProduct.productID];
+//            } else if (viewMode == DashboardViewModeEducationalSales) {
+//                value += [report totalNumberOfEducationalSalesForProductWithID:selectedProduct.productID];
+//            } else if (viewMode == DashboardViewModeGiftPurchases) {
+//                value += [report totalNumberOfGiftPurchasesForProductWithID:selectedProduct.productID];
+//            } else if (viewMode == DashboardViewModePromoCodes) {
+//                value += [report totalNumberOfPromoCodeTransactionsForProductWithID:selectedProduct.productID];
+//            }
+//        }
+//    }
+    
     
     NSString *labelText = @"";
     if (viewMode == DashboardViewModeRevenue) {
