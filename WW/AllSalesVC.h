@@ -57,6 +57,9 @@
 @property (nonatomic) int wwMaxWeeklyReportCount;
 @property (nonatomic) int wwMaxCalendarMonthReportCount;
 @property (nonatomic) int wwMaxFiscalMonthReportCount;
+@property (nonatomic, retain) NSMutableArray *wwAllLatestDates;
+@property (nonatomic, retain) NSMutableArray *wwAllLatestDateOffsets;
+@property (nonatomic, retain) NSDate *wwMaxLatestDate;
 - (id)initWithAccount:(ASAccount *)anAccount all:(NSArray *)accs;
 
 @end

@@ -49,11 +49,19 @@
 - (void)wwShowAllReportsVC:(id)sender
 {
     if (self.accounts.count>0) {
+        int maxN=0;
+        ASAccount *longestA;
+        for (ASAccount *a in self.accounts) {
+            if (a.dailyReports.count>maxN) {
+                maxN = a.dailyReports.count;
+                longestA = a;
+            }
+        }
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            AllSalesVC *a = [[[AllSalesVC alloc] initWithAccount:self.accounts[0] all:self.accounts] autorelease];
+            AllSalesVC *a = [[[AllSalesVC alloc] initWithAccount:longestA all:self.accounts] autorelease];
             [self.navigationController pushViewController:a animated:YES];
         } else {
-            AllSalesVC *a = [[[AllSalesVC alloc] initWithAccount:self.accounts[0] all:self.accounts] autorelease];
+            AllSalesVC *a = [[[AllSalesVC alloc] initWithAccount:longestA all:self.accounts] autorelease];
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:a];
             [self.navigationController presentViewController:nav animated:YES completion:NULL];
         }

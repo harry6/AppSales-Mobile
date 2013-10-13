@@ -2948,13 +2948,21 @@
 		7F709D4E13BC98860008DBAD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					armv6,
+				);
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: HW LIU (TTG9S653N8)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OtherSources/AppSales-Prefix.pch";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "Support/AppSales-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = AppSalesMobile;
+				PROVISIONING_PROFILE = "CAEE707C-2D8A-4EF8-98DD-2B832E3DC589";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "armv6, armv7, armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2962,13 +2970,19 @@
 		7F709D4F13BC98860008DBAD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					armv6,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OtherSources/AppSales-Prefix.pch";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "Support/AppSales-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = AppSalesMobile;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "armv6, armv7, armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
