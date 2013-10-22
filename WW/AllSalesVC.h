@@ -60,6 +60,9 @@
 @property (nonatomic, retain) NSMutableArray *wwAllLatestDates;
 @property (nonatomic, retain) NSMutableArray *wwAllLatestDateOffsets;
 @property (nonatomic, retain) NSDate *wwMaxLatestDate;
+@property (nonatomic, retain) NSMutableArray *wwAllLatestDates_weekly;
+@property (nonatomic, retain) NSMutableArray *wwAllLatestDateOffsets_weekly;
+@property (nonatomic, retain) NSDate *wwMaxLatestDate_weekly;
 - (id)initWithAccount:(ASAccount *)anAccount all:(NSArray *)accs;
 
 @end
