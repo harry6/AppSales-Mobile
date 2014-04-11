@@ -297,43 +297,47 @@
         //daily
         NSMutableArray *sdReports = [NSMutableArray new];
         NSSet *allDailyReports = a.dailyReports;
-        [sdReports addObjectsFromArray:[allDailyReports allObjects]];
-        [sdReports sortUsingDescriptors:wwSortDescriptors];
-        [self.wwSortedDailyReportsForAllAccounts addObject:sdReports];
-        
-        if (sdReports.count>self.wwMaxReportCount) {
-            self.wwMaxReportCount=sdReports.count;
-        }
-        Report *dailyReport = sdReports[sdReports.count-1];
-        NSDate *lastestDate = dailyReport.startDate;
-        [self.wwAllLatestDates addObject:lastestDate];
-        if (self.wwMaxLatestDate==nil) {
-            self.wwMaxLatestDate = lastestDate;
-        } else {
-            NSTimeInterval ti = [self.wwMaxLatestDate timeIntervalSinceDate:lastestDate];
-            if (ti<0) {
+        if (allDailyReports.count>0) {
+            [sdReports addObjectsFromArray:[allDailyReports allObjects]];
+            [sdReports sortUsingDescriptors:wwSortDescriptors];
+            [self.wwSortedDailyReportsForAllAccounts addObject:sdReports];
+            
+            if (sdReports.count>self.wwMaxReportCount) {
+                self.wwMaxReportCount=sdReports.count;
+            }
+            Report *dailyReport = sdReports[sdReports.count-1];
+            NSDate *lastestDate = dailyReport.startDate;
+            [self.wwAllLatestDates addObject:lastestDate];
+            if (self.wwMaxLatestDate==nil) {
                 self.wwMaxLatestDate = lastestDate;
+            } else {
+                NSTimeInterval ti = [self.wwMaxLatestDate timeIntervalSinceDate:lastestDate];
+                if (ti<0) {
+                    self.wwMaxLatestDate = lastestDate;
+                }
             }
         }
         
         //weekly
         NSMutableArray *swReports = [NSMutableArray new];
         NSSet *allWeeklyReports = a.weeklyReports;
-        [swReports addObjectsFromArray:[allWeeklyReports allObjects]];
-        [swReports sortUsingDescriptors:wwSortDescriptors];
-        [self.wwSortedWeeklyReportsForAllAccounts addObject:swReports];
-        if (swReports.count>self.wwMaxWeeklyReportCount) {
-            self.wwMaxWeeklyReportCount=swReports.count;
-        }
-        Report *weeklyReport = swReports[swReports.count-1];
-        NSDate *lastestDate_weekly = weeklyReport.startDate;
-        [self.wwAllLatestDates_weekly addObject:lastestDate_weekly];
-        if (self.wwMaxLatestDate_weekly==nil) {
-            self.wwMaxLatestDate_weekly = lastestDate_weekly;
-        } else {
-            NSTimeInterval ti = [self.wwMaxLatestDate_weekly timeIntervalSinceDate:lastestDate_weekly];
-            if (ti<0) {
+        if (allWeeklyReports.count>0) {
+            [swReports addObjectsFromArray:[allWeeklyReports allObjects]];
+            [swReports sortUsingDescriptors:wwSortDescriptors];
+            [self.wwSortedWeeklyReportsForAllAccounts addObject:swReports];
+            if (swReports.count>self.wwMaxWeeklyReportCount) {
+                self.wwMaxWeeklyReportCount=swReports.count;
+            }
+            Report *weeklyReport = swReports[swReports.count-1];
+            NSDate *lastestDate_weekly = weeklyReport.startDate;
+            [self.wwAllLatestDates_weekly addObject:lastestDate_weekly];
+            if (self.wwMaxLatestDate_weekly==nil) {
                 self.wwMaxLatestDate_weekly = lastestDate_weekly;
+            } else {
+                NSTimeInterval ti = [self.wwMaxLatestDate_weekly timeIntervalSinceDate:lastestDate_weekly];
+                if (ti<0) {
+                    self.wwMaxLatestDate_weekly = lastestDate_weekly;
+                }
             }
         }
 
@@ -396,13 +400,13 @@
         }
     }
     //days offset for each account
-    for (int i=0; i<self.accounts.count; i++) {
+    for (int i=0; i<self.wwAllLatestDates.count; i++) {
         NSTimeInterval ti = [self.wwMaxLatestDate timeIntervalSinceDate:self.wwAllLatestDates[i]];
         int days = ti/86400;
         [self.wwAllLatestDateOffsets addObject:@(days)];
     }
     //weeks offset for each account
-    for (int i=0; i<self.accounts.count; i++) {
+    for (int i=0; i<self.wwAllLatestDates_weekly.count; i++) {
         NSTimeInterval ti = [self.wwMaxLatestDate_weekly timeIntervalSinceDate:self.wwAllLatestDates_weekly[i]];
         int days = ti/86400;
         int weeks = days/7;
