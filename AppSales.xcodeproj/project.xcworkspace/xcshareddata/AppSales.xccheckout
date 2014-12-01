@@ -10,29 +10,29 @@
 	<string>AppSales</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>34BEBBF7-248F-4A9E-9E8B-9079E47A9B87</key>
+		<key>364EE4FE0CF48FAA9825050D9EEC8EA2AA0CF9F8</key>
 		<string>https://github.com/harry6/AppSales-Mobile.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>AppSales.xcodeproj/project.xcworkspace</string>
+	<string>AppSales.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>34BEBBF7-248F-4A9E-9E8B-9079E47A9B87</key>
+		<key>364EE4FE0CF48FAA9825050D9EEC8EA2AA0CF9F8</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/harry6/AppSales-Mobile.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>34BEBBF7-248F-4A9E-9E8B-9079E47A9B87</string>
+	<string>364EE4FE0CF48FAA9825050D9EEC8EA2AA0CF9F8</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>34BEBBF7-248F-4A9E-9E8B-9079E47A9B87</string>
+			<string>364EE4FE0CF48FAA9825050D9EEC8EA2AA0CF9F8</string>
 			<key>IDESourceControlWCCName</key>
 			<string>AppSales-Mobile</string>
 		</dict>

@@ -1254,6 +1254,9 @@
 		4A1F9E0A18463AED006EBDD1 /* Default-Landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F82B194167DB1D800C0D9E9 /* Default-Landscape@2x.png */; };
 		4A1F9E0B18463AED006EBDD1 /* Default-Portrait@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F82B195167DB1DA00C0D9E9 /* Default-Portrait@2x.png */; };
 		4A1F9E0C18463AED006EBDD1 /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F82B196167DB1DB00C0D9E9 /* Default-Landscape.png */; };
+		4A4230A11A2CC45800794B5E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A4230A01A2CC45800794B5E /* LaunchScreen.xib */; };
+		4A4230A21A2CC45800794B5E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A4230A01A2CC45800794B5E /* LaunchScreen.xib */; };
+		4A4230A31A2CC45800794B5E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A4230A01A2CC45800794B5E /* LaunchScreen.xib */; };
 		6D81575414CB3C2B005E8F3F /* KKKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D81574914CB3C2B005E8F3F /* KKKeychain.m */; };
 		6D81575514CB3C2B005E8F3F /* KKPasscodeLock.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D81574B14CB3C2B005E8F3F /* KKPasscodeLock.m */; };
 		6D81575614CB3C2B005E8F3F /* KKPasscodeSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D81574D14CB3C2B005E8F3F /* KKPasscodeSettingsViewController.m */; };
@@ -1885,6 +1888,7 @@
 		4A1F9B9918463AAC006EBDD1 /* AppSales.lhw.cmb-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "AppSales.lhw.cmb-Info.plist"; path = "/Users/harry/iPhoneDev/DocResource/tools/github_cloned/AppSales-Mobile/AppSales.lhw.cmb-Info.plist"; sourceTree = "<absolute>"; };
 		4A1F9E1018463AED006EBDD1 /* AppSales.lxx.boc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppSales.lxx.boc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A1F9E1118463AEE006EBDD1 /* AppSales.lxx.boc-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "AppSales.lxx.boc-Info.plist"; path = "/Users/harry/iPhoneDev/DocResource/tools/github_cloned/AppSales-Mobile/AppSales.lxx.boc-Info.plist"; sourceTree = "<absolute>"; };
+		4A4230A01A2CC45800794B5E /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		6D81574814CB3C2B005E8F3F /* KKKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKKeychain.h; sourceTree = "<group>"; };
 		6D81574914CB3C2B005E8F3F /* KKKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KKKeychain.m; sourceTree = "<group>"; };
 		6D81574A14CB3C2B005E8F3F /* KKPasscodeLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKPasscodeLock.h; sourceTree = "<group>"; };
@@ -2712,6 +2716,7 @@
 				7F709D3413BC98860008DBAD /* Supporting Files */,
 				7F709D2A13BC98860008DBAD /* Frameworks */,
 				7F709D2813BC98860008DBAD /* Products */,
+				4A4230A01A2CC45800794B5E /* LaunchScreen.xib */,
 				4A1F9B9918463AAC006EBDD1 /* AppSales.lhw.cmb-Info.plist */,
 				4A1F9E1118463AEE006EBDD1 /* AppSales.lxx.boc-Info.plist */,
 			);
@@ -3505,9 +3510,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4A1F992218463AAC006EBDD1 /* AppSales.lhw.cmb */ = {
+		4A1F992218463AAC006EBDD1 /* AppSales.ip6p */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4A1F9B9518463AAC006EBDD1 /* Build configuration list for PBXNativeTarget "AppSales.lhw.cmb" */;
+			buildConfigurationList = 4A1F9B9518463AAC006EBDD1 /* Build configuration list for PBXNativeTarget "AppSales.ip6p" */;
 			buildPhases = (
 				4A1F992318463AAC006EBDD1 /* Sources */,
 				4A1F996718463AAC006EBDD1 /* Frameworks */,
@@ -3517,7 +3522,7 @@
 			);
 			dependencies = (
 			);
-			name = AppSales.lhw.cmb;
+			name = AppSales.ip6p;
 			productName = AppSales;
 			productReference = 4A1F9B9818463AAC006EBDD1 /* AppSales.lhw.cmb.app */;
 			productType = "com.apple.product-type.application";
@@ -3563,6 +3568,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0500;
+				TargetAttributes = {
+					4A1F992218463AAC006EBDD1 = {
+						DevelopmentTeam = GQHTZV69XX;
+					};
+				};
 			};
 			buildConfigurationList = 7F709D2113BC98860008DBAD /* Build configuration list for PBXProject "AppSales" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -3577,7 +3587,7 @@
 			projectRoot = "";
 			targets = (
 				7F709D2613BC98860008DBAD /* AppSales */,
-				4A1F992218463AAC006EBDD1 /* AppSales.lhw.cmb */,
+				4A1F992218463AAC006EBDD1 /* AppSales.ip6p */,
 				4A1F9B9A18463AED006EBDD1 /* AppSales.lxx.boc */,
 			);
 		};
@@ -3874,6 +3884,7 @@
 				4A1F9A8C18463AAC006EBDD1 /* lu.png in Resources */,
 				4A1F9A8D18463AAC006EBDD1 /* lu@2x.png in Resources */,
 				4A1F9A8E18463AAC006EBDD1 /* lv.png in Resources */,
+				4A4230A21A2CC45800794B5E /* LaunchScreen.xib in Resources */,
 				4A1F9A8F18463AAC006EBDD1 /* lv@2x.png in Resources */,
 				4A1F9A9018463AAC006EBDD1 /* ly.png in Resources */,
 				4A1F9A9118463AAC006EBDD1 /* ly@2x.png in Resources */,
@@ -4429,6 +4440,7 @@
 				4A1F9D0418463AED006EBDD1 /* lu.png in Resources */,
 				4A1F9D0518463AED006EBDD1 /* lu@2x.png in Resources */,
 				4A1F9D0618463AED006EBDD1 /* lv.png in Resources */,
+				4A4230A31A2CC45800794B5E /* LaunchScreen.xib in Resources */,
 				4A1F9D0718463AED006EBDD1 /* lv@2x.png in Resources */,
 				4A1F9D0818463AED006EBDD1 /* ly.png in Resources */,
 				4A1F9D0918463AED006EBDD1 /* ly@2x.png in Resources */,
@@ -4984,6 +4996,7 @@
 				7FDF718E13D8D4AE00B8CC4E /* lu.png in Resources */,
 				7FDF718F13D8D4AE00B8CC4E /* lu@2x.png in Resources */,
 				7FDF719013D8D4AE00B8CC4E /* lv.png in Resources */,
+				4A4230A11A2CC45800794B5E /* LaunchScreen.xib in Resources */,
 				7FDF719113D8D4AE00B8CC4E /* lv@2x.png in Resources */,
 				7FDF719213D8D4AE00B8CC4E /* ly.png in Resources */,
 				7FDF719313D8D4AE00B8CC4E /* ly@2x.png in Resources */,
@@ -5480,22 +5493,19 @@
 		4A1F9B9618463AAC006EBDD1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					"$(ARCHS_STANDARD)",
-					armv6,
-				);
-				CODE_SIGN_IDENTITY = "iPhone Developer: hongwei liu (88UEUUKSB8)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: hongwei liu (88UEUUKSB8)";
+				ARCHS = "$(ARCHS_STANDARD)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OtherSources/AppSales-Prefix.pch";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "AppSales.lhw.cmb-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = AppSales.lhw.cmb;
-				PROVISIONING_PROFILE = "375BD224-2D53-4910-B536-D2EDEFBE772C";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "armv6, armv7, armv7s";
+				VALID_ARCHS = "arm64 armv7  armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -5503,19 +5513,19 @@
 		4A1F9B9718463AAC006EBDD1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					"$(ARCHS_STANDARD)",
-					armv6,
-				);
+				ARCHS = "$(ARCHS_STANDARD)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OtherSources/AppSales-Prefix.pch";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "AppSales.lhw.cmb-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = AppSales.lhw.cmb;
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "armv6, armv7, armv7s";
+				VALID_ARCHS = "arm64 armv7  armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -5654,7 +5664,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4A1F9B9518463AAC006EBDD1 /* Build configuration list for PBXNativeTarget "AppSales.lhw.cmb" */ = {
+		4A1F9B9518463AAC006EBDD1 /* Build configuration list for PBXNativeTarget "AppSales.ip6p" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4A1F9B9618463AAC006EBDD1 /* Debug */,

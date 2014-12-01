@@ -25,6 +25,9 @@
 #define kSheetTagMonthlyGraphOptions	2
 #define kSheetTagAdvancedViewMode		3
 
+#define UP_HEADER_HEIGHT 50
+#define GRAPH_HEIGHT_RATE 0.5
+
 @interface AllSalesVC ()
 
 - (NSArray *)stackedValuesForReport:(id<ReportSummary>)report;
@@ -134,8 +137,8 @@
 	
 	BOOL iPad = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
 	
-	CGFloat graphHeight = iPad ? 450.0 : (self.view.bounds.size.height - 44.0) * 0.5;
-	self.graphView = [[[GraphView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, graphHeight)] autorelease];
+	CGFloat graphHeight = iPad ? 450.0 : (self.view.bounds.size.height - UP_HEADER_HEIGHT) * GRAPH_HEIGHT_RATE;
+	self.graphView = [[[GraphView alloc] initWithFrame:CGRectMake(0, UP_HEADER_HEIGHT, self.view.bounds.size.width, graphHeight-UP_HEADER_HEIGHT)] autorelease];
 	graphView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 	graphView.delegate = self;
 	graphView.dataSource = self;
@@ -245,9 +248,9 @@
 		self.shadowView.hidden = YES;
 		[self.graphView reloadValuesAnimated:NO];
 	} else {
-		CGFloat graphHeight = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad ? 450.0 : self.view.bounds.size.height * 0.5;
-		self.graphView.frame = CGRectMake(0, 0, self.view.bounds.size.width, graphHeight);
-		self.topView.frame = CGRectMake(0, 0, self.view.bounds.size.width, graphHeight);
+		CGFloat graphHeight = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad ? 450.0 : self.view.bounds.size.height * GRAPH_HEIGHT_RATE;
+		self.graphView.frame = CGRectMake(0, UP_HEADER_HEIGHT, self.view.bounds.size.width, graphHeight-UP_HEADER_HEIGHT);
+		self.topView.frame = CGRectMake(0, UP_HEADER_HEIGHT, self.view.bounds.size.width, graphHeight-UP_HEADER_HEIGHT);
 		self.shadowView.hidden = NO;
 		self.productsTableView.alpha = 1.0;
 		[self.graphView reloadValuesAnimated:NO];
