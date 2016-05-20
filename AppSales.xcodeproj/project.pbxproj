@@ -3567,7 +3567,7 @@
 		7F709D1E13BC98860008DBAD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0610;
 				TargetAttributes = {
 					4A1F992218463AAC006EBDD1 = {
 						DevelopmentTeam = GQHTZV69XX;
@@ -5493,9 +5493,8 @@
 		4A1F9B9618463AAC006EBDD1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: hongwei liu (88UEUUKSB8)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: hongwei liu (88UEUUKSB8)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OtherSources/AppSales-Prefix.pch";
 				HEADER_SEARCH_PATHS = "";
@@ -5513,7 +5512,6 @@
 		4A1F9B9718463AAC006EBDD1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -5533,14 +5531,11 @@
 		4A1F9E0E18463AED006EBDD1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					"$(ARCHS_STANDARD)",
-					armv6,
-				);
 				CODE_SIGN_IDENTITY = "iPhone Developer: hongwei liu (88UEUUKSB8)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: hongwei liu (88UEUUKSB8)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OtherSources/AppSales-Prefix.pch";
+				GCC_THUMB_SUPPORT = NO;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "AppSales.lxx.boc-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -5556,12 +5551,9 @@
 		4A1F9E0F18463AED006EBDD1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					"$(ARCHS_STANDARD)",
-					armv6,
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OtherSources/AppSales-Prefix.pch";
+				GCC_THUMB_SUPPORT = NO;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "AppSales.lxx.boc-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -5622,13 +5614,10 @@
 		7F709D4E13BC98860008DBAD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					"$(ARCHS_STANDARD)",
-					armv6,
-				);
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: HW LIU (TTG9S653N8)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OtherSources/AppSales-Prefix.pch";
+				GCC_THUMB_SUPPORT = NO;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "Support/AppSales-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -5644,12 +5633,9 @@
 		7F709D4F13BC98860008DBAD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					"$(ARCHS_STANDARD)",
-					armv6,
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OtherSources/AppSales-Prefix.pch";
+				GCC_THUMB_SUPPORT = NO;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "Support/AppSales-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
